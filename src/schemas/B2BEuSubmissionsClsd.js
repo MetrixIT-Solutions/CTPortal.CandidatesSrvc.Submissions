@@ -1,0 +1,185 @@
+/**
+ * Copyright (C) SkillworksIT Solutions Pvt Ltd - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by SkillworksIT <contact@skillworksit.com>, Aug 2024
+ */
+
+var config = require('config');
+var mongoose = require('mongoose');
+var {v4: uuidv4} = require('uuid');
+
+mongoose.createConnection(config.mongoDBConnection);
+const Schema = mongoose.Schema;
+
+// --- Begin: B2B Partner End Users Submissions Closed Schema --- //
+const schema = new Schema({
+  _id: {type: String, default: uuidv4()},
+  idSeq: {
+    seq: {type: String, required: true}, // Country, State and Year(2022) Moth(10) Day(10)
+    cCode: {type: String, required: false}, // Country Code: IND
+    sCode: {type: String, required: false}, // State Code: TS
+    year: {type: Number, required: true},
+    month: {type: Number, required: true},
+    day: {type: Number, required: true}
+  },
+  euUser: {type: String, required: true},
+  euName: {type: String, required: true},
+  euPrimary: {type: String, required: true},
+  euRefID: {type: String, required: true},
+  lead: {type: String, required: true},
+  leadId: {type: String, required: true},
+  intrw: {type: String, required: false}, // Interview Record ID: _id
+  intrwId: {type: String, required: false}, // Interview ID
+  b2b: {type: String, required: true},
+  b2bName: {type: String, required: true},
+  b2bCode: {type: String, required: true},
+
+  org: {type: String, required: false},
+  orgName: {type: String, required: false},
+  orgCode: {type: String, required: false},
+  obId: {type: String, required: false}, // Org Branch Record ID
+  obName: {type: String, required: false}, // Org Branch Name
+  obCode: {type: String, required: false}, // Org Branch Code
+  team: {type: String, required: false},
+  tName: {type: String, required: false}, // Team Name
+  tCode: {type: String, required: false}, // Team Code
+
+  b2bUser: {type: String, required: true}, // Assigned To B2B User Record ID(b2busers._id)
+  b2buName: {type: String, required: true}, // Assigned To B2B User Name
+  b2buRole: {type: String, required: true},
+  b2bUsers: [{
+    _id: {type: String, required: true}, // Assigned To B2B User Record ID(b2busers._id)
+    uRole: {type: String, required: true},
+    uName: {type: String, required: true}, // Assigned To B2B User Name
+  }],
+
+  pReports: {type: [String], required: true}, // Parent Reports
+
+  sDt: {type: Date, required: true}, // Submission Date: YYYY-MM-DD
+  sDtStr: {type: String, required: true}, // Submission Date String: YYYY-MM-DD
+  canName: {type: String, required: true}, // Candidate Name
+  canPhNum: {type: String, required: true}, // Candidate Phone Number
+  canEmail: {type: String, required: true}, // Candidate Email
+  jobTitle: {type: String, required: true},
+  jobId: {type: String, required: false},
+  jobDesc: {type: String, required: true},
+  skills: {type: String, required: true},
+
+  sStatus: {type: String, required: true}, // Submitted, Shortlisted, No Response, Not Submitted, Rejected, Interview Scheduled
+  sNotes: {type: String, required: false}, // Status Notes/Reason
+  jobLoc: {type: String, required: true}, // Job Location
+
+  vType: {type: String, required: true}, // Vendor Type(Vendor): Vendor / Prime Vendor / Implementation
+  vName: {type: String, required: true}, // Vendor Name(Vendor Company)
+  vCode: {type: String, required: false}, // Vendor Code(Vendor Company Short Name) - for now not required
+  vcPerson: {type: String, required: true}, // Vendor Contact Person(Vendor Name)
+  vcMobCc: {type: String, required: true},
+  vcMobNum: {type: String, required: true},
+  vcMobCcNum: {type: String, required: true},
+  vcEmail: {type: String, required: true},
+  vClient: {type: String, required: false},
+  pvipType: {type: String, required: false}, // Prime Vendor / Implementation Partner
+  pvipName: {type: String, required: false}, // Prime Vendor / Implementation Partner Company
+  pvipcPerson: {type: String, required: false},
+  pvipcMobCc: {type: String, required: false},
+  pvipcMobNum: {type: String, required: false},
+  pvipcMobCcNum: {type: String, required: false},
+  pvipcEmail: {type: String, required: false},
+  pvipClient: {type: String, required: false},
+
+  sBy: {type: String, required: true}, // Submission Done By: Recruiter(B2B User Role), Candidate(End User)
+  subId: {type: String, required: true}, // Submission ID: AS1289S61577(First Name, Last Name, Current Year(2024) - 2023, Day of Year(289 - 15th Oct), 'S' for submission, Current time in seconds(17:06:17))
+  prHr: {type: Number, required: false}, // Candidate Pay Rate Per Hour
+  prNotes: {type: String, required: false}, // Pay Rate Notes
+  prfPath: {type: String, required: false}, // Candidate Pay Rate Per Hour (RTR confirmation image) Path
+
+  visaStatus: {type: String, required: false},
+  tExp: {type: Number, required: false},
+  primSkills: {type: String, required: false},
+  wrkUrls: {type: [String], required: false},
+  wrkAuthExpDtStr: {type: String, required: false},
+  usaNatID: {type: String, required: false}, // USA issued national ID state: Number
+  unidType: {type: String, required: false}, // USA issued national ID state Type: DL(Driving Licence)/State ID/Other
+  unidExpDtStr: {type: String, required: false},
+  resState: {type: String, required: false}, // Resdential
+  resScode: {type: String, required: false},
+  certificates: {type: [String], required: false},
+
+  adrsName: {type: String, required: false}, // Office: MetrixIT, Teksolve IT
+  hNum: {type: String, required: false}, // Building Name, House Number, Floor
+  area: {type: String, required: false}, // Streat, Area, Village
+  zip: {type: String, required: false}, // Zip Code, Pincode
+  city: {type: String, required: true}, // City, District
+  cityCode: {type: String, required: false}, // City Code, District Code
+  state: {type: String, required: true},
+  sCode: {type: String, required: true},
+  country: {type: String, required: true},
+  cCode: {type: String, required: true},
+
+  mVisaStatus: {type: String, required: false},  // Marketing
+  mEmail: {type: String, required: false},
+  mMobCc: {type: String, required: false},
+  mMobNum: {type: String, required: false},
+  mTexp: {type: Number, required: false},
+  mPrimSkills: {type: String, required: false},
+  mCurrClient: {type: String, required: false},
+  mPrevClient: {type: String, required: false},
+  mWrkUrls: {type: [String], required: false},
+  mWrkAuthExpDtStr: {type: String, required: false},
+  mUsaNatID: {type: String, required: false}, // USA issued national ID state: Number
+  mUnidType: {type: String, required: false}, // USA issued national ID state Type: DL(Driving Licence)/State ID/Other
+  mUnidExpDtStr: {type: String, required: false},
+  mState: {type: String, required: false},
+  mScode: {type: String, required: false},
+  mResState: {type: String, required: false},
+  mResScode: {type: String, required: false},
+  mJobTitle: {type: String, required: false},
+  mCertificates: {type: [String], required: false},
+
+  prBy: {type: String, required: false},   // Preferred By
+  prByName: {type: String, required: false},
+  prByrefUID: {type: String, required: false},
+  prByPrimary: {type: String, required: false},
+
+  ua: [{
+    _id: {type: String, required: true}, //
+    role: {type: String, required: true}, // Recruiter, Mentor, Onsite Manager, Ofshore Manager
+    name: {type: String, required: true},
+    mobCcNum: {type: String, required: true}, // Mobile Number with Country Code
+    deskCcNum: {type: String, required: false},
+    deskNumExtn: {type: String, required: false},
+    emID: {type: String, required: true}, // Email ID
+    refUID: {type: String, required: true}, // Reference Unique ID // teksolve:superadmin
+    primary: {type: String, required: true}, // Mobile Number or Email // teksolve:admin@teksolveit.com
+  }],
+
+  priority: {type: String, required: false},
+
+  isVrfd: {type: Boolean, default: false}, // Is Verified
+  vrfyNts: {type: String, required: false}, //  Verify Notes
+  isVrfdOfs: {type: Boolean, default: false}, // Is Verified - Offshore
+  vrfyNtsOfs: {type: String, required: false}, //  Verify Notes
+
+  delFlag: {type: Boolean, default: false}, // Deleted Flag
+  cuType: {type: String, required: true}, // Created User Type
+  cUser: {type: String, required: true, trim: true}, // Created Users._id
+  cuName: {type: String, required: true}, // Created Users.pName
+  cDate: {type: Date, required: true}, // Date & Time
+  cDtStr: {type: String, required: true}, // Date & Time String - Format = YYYY-MM-DD HH:mm:ss
+  uuType: {type: String, required: true}, // Updated User Type
+  uUser: {type: String, required: true, trim: true}, // Updated Users._id
+  uuName: {type: String, required: true}, // Updated Users.pName
+  uDate: {type: Date, required: true}, // Date & Time
+  uDtStr: {type: String, required: true}, // Date & Time String - Format = YYYY-MM-DD HH:mm:ss
+}, {collection: config.collB2BEuSubmissionsClsd});
+
+schema.index({euName: 'text', subId: 'text', intrwId: 'text', jobTitle: 'text', vName: 'text'});
+schema.index({b2b: 1, subId: 1}, {unique: 1});
+schema.index({delFlag: -1, b2b: 1, pReports: 1, sStatus: 1});
+schema.index({delFlag: -1, b2b: 1, euUser: 1});
+schema.index({delFlag: -1, b2b: 1, intrw: 1});
+schema.index({cDtStr: -1, uDtStr: -1});
+
+module.exports = mongoose.model(config.collB2BEuSubmissionsClsd, schema);
+// --- End: B2B Partner End Users Submissions Closed Schema --- //

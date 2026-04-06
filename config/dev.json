@@ -1,0 +1,23 @@
+{
+    "license": "Copyright (C) SkillworksIT Solutions Pvt Ltd - All Rights Reserved. Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential. Written by Skillworks IT <contact@skillworksit.com>, Aug 2024",
+    "mongoDBConnection": "mongodb://localhost:27017/ctp_b2b_eu_submsns",
+
+    "senderMail": "skillworksit@gmail.com",
+    "senderMailPswd": "nvkldrtevztbkvyv",
+    "smtp": "smtp.gmail.com",
+    "smtpPort": 465,
+    "from": "NoReply<skillworksit@gmail.com>",
+    "jwtSecretKey": "euCTPa6tner$!&J*$D@-kv^NA|Dev",
+    "criptoTokenKey": "EUak17!&J*$D@^N|Ctp@#Apkv226|Dev",
+    "dbSecretKey": "euCtpDB@AK17!&*$D@^N|#A226kv|Dev",
+
+    "ssnApi": "http://localhost:3201/ctpcust/v1/end/users/auth-user/session",
+    "ssnLogoutApi": "http://localhost:3201/ctpcust/v1/end/users/auth-logout",
+
+    "getB2bUserDataApi": "http://localhost:3402/ctpb2b/v1/user/view/",
+    "createVendorApi": "http://localhost:3405/ctpb2b/v1/create/vendor",
+    "getSmtpDetailsApi": "http://localhost:3404/ctpb2b/v1/entities/get/smtp/details",
+    "postNtfcCreatApi": "http://localhost:3402/ctpb2b/v1/euser/notifications/create",
+
+    "apiHost": "http://localhost:3211/"
+}
